@@ -10,10 +10,20 @@
       <h1>REGISTRO DESDE BASE</h1>
       <form method="POST">
         {% csrf_token %}
+
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="name" name="name" value="{{request.session.register_name}}">
+          <input type="text" class="form-control" id="name" name="first_name" value="{{request.session.register_first_name}}">
         </div>
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" class="form-control" id="name" name="last_name" value="{{request.session.register_last_name}}">
+        </div>
+
+        <!-- <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{request.session.register_name}}">
+        </div> -->
 
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>

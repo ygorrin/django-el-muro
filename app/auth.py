@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 import bcrypt
-from .models import User
+from .models import *
 
 
 def logout(request):
@@ -22,9 +22,11 @@ def login(request):
 
                 user = {
                     "id" : log_user.id,
-                    "name": f"{log_user}",
+                    "first_name" : log_user.first_name,
+                    "last_name" : log_user.last_name,
+                    #"name": f"{log_user}",
                     "email": log_user.email,
-                    "role": log_user.role
+                    #"role": log_user.role
                 }
 
                 request.session['user'] = user
@@ -34,8 +36,6 @@ def login(request):
                 messages.error(request, "Password o Email  incorrectos.")
         else:
             messages.error(request, "Email o password incorrectos.")
-
-
 
         return redirect("/login")
     else:
@@ -52,28 +52,33 @@ def registro(request):
                 messages.error(request, value)
                 # print("DESDE EL FOR: ",key, value)
             
-            request.session['register_name'] =  request.POST['name']
+            request.session['register_first_name'] =  request.POST['first_name']
+            request.session['register_last_name'] =  request.POST['last_name']
             request.session['register_email'] =  request.POST['email']
 
         else:
-            request.session['register_name'] = ""
+            request.session['register_first_name'] = ""
+            request.session['register_last_name'] = ""
             request.session['register_email'] = ""
 
             password_encryp = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt()).decode() 
 
             usuario_nuevo = User.objects.create(
-                name = request.POST['name'],
+                first_name = request.POST['first_name'],
+                last_name = request.POST['last_name'],
+                #name = request.POST['name'],
                 email=request.POST['email'],
                 password=password_encryp,
-                role=request.POST['role']
+                #role=request.POST['role']
             )
 
             messages.success(request, "El usuario fue agregado con exito.")
             
-
             request.session['usuario'] = {
                 "id" : usuario_nuevo.id,
-                "name": f"{usuario_nuevo.name}",
+                "first_name" : usuario_nuevo.first_name,
+                "last_name" : usuario_nuevo.last_name,
+                #"name": f"{usuario_nuevo.name}",
                 "email": usuario_nuevo.email
             }
             return redirect("/")

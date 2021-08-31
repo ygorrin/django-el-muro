@@ -1,10 +1,17 @@
 {% extends "base.html" %}
-
 {% block titulo %}INDEX USUARIO{% endblock %}
 
+
+
 {% block contenido %}
-<h1>Bienvenid@: {{request.session.usuario.name}}</h1>
+{% include "menu.html"%}
+<div class="container mt-5">
+<h1>Bienvenid@: {{request.session.usuario.first_name}}</h1>
+
+<h2>Este es el index</h2>
 <a href="/logout">SALIR DEL SISTEMA</a>
+
+</div>
 
 {% endblock %}
 
