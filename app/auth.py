@@ -3,13 +3,10 @@ from django.shortcuts import redirect, render
 import bcrypt
 from .models import *
 
-
 def logout(request):
     if 'user' in request.session:
         del request.session['user']
-    
     return redirect("/login")
-    
 
 def login(request):
     if request.method == "POST":

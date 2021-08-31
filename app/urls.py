@@ -4,5 +4,7 @@ urlpatterns = [
     path('', views.index),
     path('registro', auth.registro),
     path('login', auth.login),
-    path('logout', auth.logout)
+    path('logout', auth.logout),
+
+    path('mensaje/crear', views.mensaje_crear),
 ]

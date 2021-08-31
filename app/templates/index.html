@@ -1,14 +1,66 @@
 {% extends "base.html" %}
 {% block titulo %}INDEX USUARIO{% endblock %}
-
-
+{% block style %}
+<style>
+    .p2{
+        margin: 0;
+        line-height: 17px;
+        padding-left: 24px;
+        background-color: rgba(33, 194, 223, 0.2);
+        margin: 5px 0;
+    }
+</style>
+{% endblock %}
 
 {% block contenido %}
 {% include "menu.html"%}
-<div class="container mt-5">
-<h1>Bienvenid@: {{request.session.usuario.first_name}}</h1>
 
-<h2>Este es el index</h2>
+<div class="container mt-5">
+    <h1>Bienvenid@: {{request.session.usuario.first_name}}</h1>
+    <hr>
+    <h3>Postear mensaje en el muro</h3>
+    <form action="/mensaje/crear" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" id="inputDescription" name='mensaje'>
+        </div>
+        <input type="hidden" name="id_user_post" value="{{request.session.usuario.id}}">
+        <button type="submit" class="btn btn-primary">Postear mensaje en el muro</button>
+    </form>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12 registros">
+            <h3>Mensajes posteados</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in mensajes reversed%}
+                    <tr>
+                        <td scope="row">
+                            <p class="p1">{{m.user.first_name}} {{m.user.last_name}} - {{m.created_at | date:"d M Y" }}</p>
+                            <p class="p2">{{m.mensaje}}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- <div class="row">
+    <a class="btn btn-primary" href="http://127.0.0.1:8000/Shows" role="button"> Ir a la vista de la tabla de
+        show's</a>
+</div> -->
+
+
 <a href="/logout">SALIR DEL SISTEMA</a>
 
 </div>

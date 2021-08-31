@@ -50,6 +50,7 @@ class MensajeManager(models.Manager):
         errors = {}
         if len(postData['mensaje']) < 2:
             errors['mensaje'] = "El mensaje debe tener al menos 2 caracteres de largo";
+        return errors
 
 class Mensaje(models.Model):
     mensaje = models.CharField(max_length=255)
