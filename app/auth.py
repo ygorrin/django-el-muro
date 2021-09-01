@@ -4,8 +4,9 @@ import bcrypt
 from .models import *
 
 def logout(request):
-    if 'user' in request.session:
-        del request.session['user']
+    if 'usuario' in request.session:
+        del request.session['usuario']
+
     return redirect("/login")
 
 def login(request):
@@ -21,12 +22,10 @@ def login(request):
                     "id" : log_user.id,
                     "first_name" : log_user.first_name,
                     "last_name" : log_user.last_name,
-                    #"name": f"{log_user}",
                     "email": log_user.email,
-                    #"role": log_user.role
                 }
 
-                request.session['user'] = user
+                request.session['usuario'] = user
                 messages.success(request, "Logueado correctamente.")
                 return redirect("/")
             else:
@@ -63,21 +62,19 @@ def registro(request):
             usuario_nuevo = User.objects.create(
                 first_name = request.POST['first_name'],
                 last_name = request.POST['last_name'],
-                #name = request.POST['name'],
                 email=request.POST['email'],
                 password=password_encryp,
-                #role=request.POST['role']
             )
 
             messages.success(request, "El usuario fue agregado con exito.")
             
-            request.session['usuario'] = {
+            user = {
                 "id" : usuario_nuevo.id,
                 "first_name" : usuario_nuevo.first_name,
                 "last_name" : usuario_nuevo.last_name,
-                #"name": f"{usuario_nuevo.name}",
                 "email": usuario_nuevo.email
             }
+            request.session['usuario'] = user
             return redirect("/")
 
         return redirect("/registro")

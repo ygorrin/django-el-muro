@@ -23,7 +23,6 @@
       "closeButton": true,
       "progressBar": true,
     }
-
     {% if messages %}
       {% for message in messages %}
         toastr.{{message.tags }}("{{ message }}")

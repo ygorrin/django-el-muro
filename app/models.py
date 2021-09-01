@@ -71,11 +71,12 @@ class ComentarioManager(models.Manager):
         errors = {}
         if len(postData['comentario']) < 2:
             errors['comentario'] = "El comentario debe tener al menos 2 caracteres de largo";
+        return errors
 
 class Comentario(models.Model):
     comentario = models.CharField(max_length=255)
     user = models.ForeignKey(User, related_name="comentario_u_id", on_delete = models.CASCADE)
-    mensaje = models.ForeignKey(User, related_name="comentario_m_id", on_delete = models.CASCADE)
+    mensaje = models.ForeignKey(Mensaje, related_name="comentario_m_id", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = ComentarioManager()

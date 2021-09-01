@@ -7,4 +7,6 @@ urlpatterns = [
     path('logout', auth.logout),
 
     path('mensaje/crear', views.mensaje_crear),
+    path('mensaje/comentario', views.comentario_crear),
+
 ]
