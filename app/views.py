@@ -66,3 +66,13 @@ def comentario_crear(request):
         messages.success(request, "Comentario agregado correctamente")
 
         return redirect(f"/")
+
+
+@login_required
+def comentario_borrar(request, val):
+    print(request.GET)
+    borr = Comentario.objects.get(id = val)
+    print("Aqui se va a borrar el comentario ID=", val)
+    borr.delete()
+    
+    return redirect("/")

@@ -75,8 +75,8 @@ class ComentarioManager(models.Manager):
 
 class Comentario(models.Model):
     comentario = models.CharField(max_length=255)
-    user = models.ForeignKey(User, related_name="comentario_u_id", on_delete = models.CASCADE)
-    mensaje = models.ForeignKey(Mensaje, related_name="comentario_m_id", on_delete = models.CASCADE)
+    user = models.ForeignKey(User, related_name="comentarios", on_delete = models.CASCADE)
+    mensaje = models.ForeignKey(Mensaje, related_name="comentarios", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = ComentarioManager()
