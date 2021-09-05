@@ -4,8 +4,8 @@
 {% include "menu.html"%}
 <div class="container mt-3">
   <div class="row">
-    <div class="col-5">
-      <h1>LOGIN DESDE BASE</h1>
+    <div class="col-6 mx-auto mt-5">
+      <h2>Acceso usuarios registrados</h2>
       <form method="POST">
         {% csrf_token %}
           <div class="mb-3">
@@ -16,13 +16,10 @@
             <label for="password" class="form-label">Contraseña</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
-        <!-- <input type="hidden" name="id_user" value="{{request.session.user.id}}"> -->
-        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <button type="submit" class="btn btn-primary">Ingresar</button> 
+        <a class="btn btn-secondary mx-2" href="/registro">Registrarse</a>
       </form>
     </div>
-  </div>
-  <div>
-    <a href="/registro">Registrarse</a>
   </div>
 </div>
 {% endblock %}

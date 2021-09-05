@@ -6,6 +6,7 @@ class UserManager(models.Manager):
     def validador_basico(self, postData):
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         SOLO_LETRAS = re.compile(r'^[a-zA-Z. ]+$')
+        
 
         errors = {}
         if len(postData['first_name']) < 2:

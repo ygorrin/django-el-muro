@@ -3,15 +3,14 @@ from django.shortcuts import redirect, render
 import bcrypt
 from .decorators import login_required
 from .models import *
+from datetime import datetime, time, timedelta
 
 
 @login_required
 def index(request):
-    #id_user = request.POST['id_user']
     context = {
         'mensajes': Mensaje.objects.all(),
         'comentarios': Comentario.objects.all(),
-        #'user' : User.objects.get(id = id_user),
     }
     return render(request, 'index.html', context)
 
@@ -27,18 +26,23 @@ def mensaje_crear(request):
         return redirect("/")
     else:
         mensaje_creado = request.POST['mensaje']
-        #user_id_creador = request.POST['id_user_post']
-        #print("ID del ususario", user_id_creador)
         user_id_creador = request.session['usuario']['id']
-        #user_id_creador = usuario.id
 
         mensaje = Mensaje.objects.create(
             mensaje = mensaje_creado, 
             user = User.objects.get(id = user_id_creador),
         )
         messages.success(request, "Mensaje agregado correctamente")
-
         return redirect(f"/")
+
+
+@login_required
+def mensaje_borrar(request, val):
+    print(request.GET, 'Entró a borrar mensaje')
+    borr = Mensaje.objects.get(id = val)
+    print("Aqui se va a borrar el mensaje ID=", val)
+    borr.delete()
+    return redirect("/")
 
 
 
@@ -55,7 +59,6 @@ def comentario_crear(request):
     else:
         comentario_creado = request.POST['comentario']
         id_mensaje = request.POST['id_mensaje_comentario']
-        #comentario_user_id = request.POST['id_user_comentario']
         comentario_user_id = request.session['usuario']['id']
 
         comentario = Comentario.objects.create(

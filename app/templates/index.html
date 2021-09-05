@@ -44,41 +44,47 @@
         <div class="col-sm-12 registros">
             <h3>Mensajes posteados</h3>
             {% for m in mensajes reversed%}
-            <div class="row mt-5">
+            <div class="row mt-1">
                 <h4 class="p1 mx-4">{{m.user.first_name}} {{m.user.last_name}} | {{m.created_at | date:"d M Y" }} |
                     Posteó el siguiente mensaje:</h4>
+
                 <div class="container mensajes">
                     <h5 class="p2">{{m.mensaje}}</h5>
-
+                    {% if request.session.usuario.id == m.user.id %}
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-outline-danger btn-sm mx-4" href="/mensaje/{{m.id}}/borrar">Borrar Mensaje</a>
+                    </div>
+                    {% endif %}
                     <div class="container mt-3">
                         <form action="/mensaje/comentario" method="post">
                             {% csrf_token %}
-                            <div class="mb-3">
+                            <h5>Comentarios</h5>
+                            <div class="mb-1">
                                 <input type="text" class="form-control" id="inputDescription" name='comentario'>
                             </div>
-                            <!-- <input type="hidden" name="id_user_comentario" value="{{request.session.usuario.id}}"> -->
                             <input type="hidden" name="id_mensaje_comentario" value="{{m.id}}">
-                            <button type="submit" class="btn btn-outline-info mb-3">Agregar comentario</button>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-info btn-sm mb-1 ">Agregar comentario</button>
+                            </div>
                         </form>
                     </div>
 
                     <div class="container">
-                        <h5>Comentarios</h5>
                         {% for c in m.comentarios.all reversed%}
-              
                         <div class="row">
-                            <h4 class="p1 mx-4">{{c.user.first_name}} {{c.user.last_name}} | {{c.created_at | date:"d M Y" }} | Comentó:</h4>
+                            <h4 class="p1 mx-4">{{c.user.first_name}} {{c.user.last_name}} |
+                                {{c.created_at | date:"d M Y" }} | Comentó:</h4>
                             <div class="container mensajes">
                                 <h5 class="p2">{{c.comentario}}</h5>
                             </div>
-                                {% if request.session.usuario.id == c.user.id %}
-                                    <div class="d-flex">
-                                        <a class="btn btn-secondary" href="/comentario/{{c.id}}/borrar">Borrar Comentario</a>
-                                    </div>
-                                {% endif %}
+                            {% if request.session.usuario.id == c.user.id %}
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-secondary btn-sm mt-1" href="/comentario/{{c.id}}/borrar">Borrar
+                                    Comentario</a>
+                            </div>
+                            {% endif %}
                         </div>
-                     
-
+                        <hr>
                         {% endfor %}
                     </div>
                 </div>
@@ -86,20 +92,14 @@
             {% endfor %}
             </tbody>
             </table>
+            <div class="d-flex justify-content-center">
+            <a class="btn btn-secondary mx-auto mt-1" href="/logout">SALIR DEL SISTEMA</a>
         </div>
+        </div>
+
     </div>
-    <a href="/logout">SALIR DEL SISTEMA</a>
+
 </div>
-
-
-<!-- <div class="row">
-    <a class="btn btn-primary" href="http://127.0.0.1:8000/Shows" role="button"> Ir a la vista de la tabla de
-        show's</a>
-</div> -->
-
-
-
-
 
 
 {% endblock %}
