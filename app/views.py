@@ -4,6 +4,8 @@ import bcrypt
 from .decorators import login_required
 from .models import *
 from datetime import datetime, time, timedelta
+from django.utils import timezone
+import re
 
 
 @login_required
@@ -36,15 +38,44 @@ def mensaje_crear(request):
         return redirect(f"/")
 
 
-@login_required
+"""@login_required
 def mensaje_borrar(request, val):
     print(request.GET, 'Entró a borrar mensaje')
     borr = Mensaje.objects.get(id = val)
     print("Aqui se va a borrar el mensaje ID=", val)
     borr.delete()
+    return redirect("/")"""
+
+def calculate_minutos(fecha):
+    today = timezone.now()
+    print(today, "today")
+    print(fecha, "fecha")
+    print("años", (today.year - fecha.year), (today.year - fecha.year)*365*24*60)
+    print("meses", (today.month - fecha.month), (today.month - fecha.month)*30*24*60)
+    print("dias", (today.day - fecha.day), (today.day - fecha.day)*24*60)
+    print("horas", (today.hour-fecha.hour), (today.hour-fecha.hour)*60)
+    print("minutos", (today.minute-fecha.minute))
+
+    resultado = (today.year - fecha.year)*365*24*60 + (today.month - fecha.month)*30*24*60 + (today.day - fecha.day)*24*60 + (today.hour-fecha.hour)*60 + (today.minute-fecha.minute)
+    print(resultado)
+    #print(today.datetime()-fecha.datetime())
+    return resultado
+
+
+@login_required
+def mensaje_borrar(request, val):
+    errors = {}
+    print(request.GET, 'Entró a borrar mensaje')
+    borr = Mensaje.objects.get(id = val)
+    print("Aqui se va a borrar el mensaje ID=", val)
+    calc = calculate_minutos(borr.created_at)
+    if calc > 30:
+        messages.warning(request, "No se borró el mensaje. Tiempo expirado máximo 30 min")
+    else: 
+        print("Autorizado para borrar el mensaje")
+        messages.success(request, "Mensaje borrado exitosamente")
+        borr.delete()
     return redirect("/")
-
-
 
 @login_required
 def comentario_crear(request):

@@ -12,7 +12,14 @@
         margin: 0;
         line-height: 13px;
         padding: 14px 23px;
-        background-color: rgba(33, 194, 223, 0.2);
+        background-color: rgba(33, 194, 223, 0.4);
+    }
+
+    .p3 {
+        margin: 0;
+        line-height: 13px;
+        padding: 14px 33px;
+        background-color: rgba(33, 194, 223, 0.1);
     }
 
     .mensajes {
@@ -35,7 +42,6 @@
         <div class="mb-3">
             <input type="text" class="form-control" id="inputDescription" name='mensaje'>
         </div>
-        <!-- <input type="hidden" name="id_user_post" value="{{request.session.user.id}}"> -->
         <button type="submit" class="btn btn-info">Postear mensaje en el muro</button>
     </form>
     <hr>
@@ -47,14 +53,16 @@
             <div class="row mt-1">
                 <h4 class="p1 mx-4">{{m.user.first_name}} {{m.user.last_name}} | {{m.created_at | date:"d M Y" }} |
                     Posteó el siguiente mensaje:</h4>
-
                 <div class="container mensajes">
-                    <h5 class="p2">{{m.mensaje}}</h5>
+                    <h5 class="p2">Mensaje: {{m.mensaje}}</h5>
                     {% if request.session.usuario.id == m.user.id %}
-                    <div class="d-flex justify-content-end">
-                        <a class="btn btn-outline-danger btn-sm mx-4" href="/mensaje/{{m.id}}/borrar">Borrar Mensaje</a>
+                    <div class="d-flex justify-content-end my-auto">
+                        <a id="borrar" class="btn btn-outline-danger btn-sm mx-4 my-auto"
+                            href="/mensaje/{{m.id}}/borrar">Borrar Mensaje</a>
                     </div>
                     {% endif %}
+
+                    <div class="container">
                     <div class="container mt-3">
                         <form action="/mensaje/comentario" method="post">
                             {% csrf_token %}
@@ -75,7 +83,7 @@
                             <h4 class="p1 mx-4">{{c.user.first_name}} {{c.user.last_name}} |
                                 {{c.created_at | date:"d M Y" }} | Comentó:</h4>
                             <div class="container mensajes">
-                                <h5 class="p2">{{c.comentario}}</h5>
+                                <h5 class="p3">Comentario: {{c.comentario}}</h5>
                             </div>
                             {% if request.session.usuario.id == c.user.id %}
                             <div class="d-flex justify-content-end">
@@ -88,21 +96,22 @@
                         {% endfor %}
                     </div>
                 </div>
+                </div>
             </div>
             {% endfor %}
             </tbody>
             </table>
             <div class="d-flex justify-content-center">
-            <a class="btn btn-secondary mx-auto mt-1" href="/logout">SALIR DEL SISTEMA</a>
+                <a class="btn btn-secondary mx-auto mt-1" href="/logout">SALIR DEL SISTEMA</a>
+            </div>
         </div>
-        </div>
-
     </div>
-
 </div>
 
-
+{% endblock %}
+{% block libreria %}
 {% endblock %}
 
-{% block libreria %}
+{% block script %}
+
 {% endblock %}

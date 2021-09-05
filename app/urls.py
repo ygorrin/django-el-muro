@@ -10,5 +10,4 @@ urlpatterns = [
     path('mensaje/comentario', views.comentario_crear),
     path('comentario/<int:val>/borrar', views.comentario_borrar),
     path('mensaje/<int:val>/borrar', views.mensaje_borrar),
-
 ]
