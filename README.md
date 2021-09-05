@@ -1,6 +1,6 @@
 # Django The Wall
 
-## Application for posting and messages and comments on a wall.
+## Application for posting messages and comments on a wall.
 It is accessed with user sections, which allow you to create a post, and delete messages within 30 minutes of being posted.
 Contains validations of the data entered, prior to entering the database.
 on data validations, before entering the database
